@@ -7,6 +7,8 @@ void main(){
 
   texcoord=gl_MultiTexCoord0;
   //texcoord.x=1-texcoord.x;
+
+//do want this for flip y
   texcoord.y=1-texcoord.y;
 
 }
