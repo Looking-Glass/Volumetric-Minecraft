@@ -11,10 +11,11 @@ uniform float far;
 
 vec4 _NFOD; //x: near clip, y: far clip, z: overlap, w: depth curve
 vec4 _SFCO; //x: slice count, y: flip x, z: calibration mode, w: should be slice order
-
+//vec3 _SO[3];
  vec4 _SO[10];
  vec4 _TD[10];
  vec4 _SK[10];
+
 
 float LinearizeDepth(float z)
 {
@@ -24,45 +25,55 @@ float LinearizeDepth(float z)
 }
 
 void main(){
+_SO[0] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[1] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[2] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[3] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[4] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[5] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[6] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[7] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[8] = vec4(0.9, 1.0, 0.0, 0.0);
+_SO[9] = vec4(0.9, 1.0, 0.0, 0.0);
 
-    _NFOD= vec4(near,1.0,.50,0.0);//x: near clip, y: far clip, z: overlap, w: depth curve
-    _SFCO= vec4(10.0,0.0,0.0,0.0);//x: slice count, y: flip x, z: calibration mode, w: should be slice order
+_TD[0] = vec4(0,0,0,0);
+_TD[1] = vec4(0,0,0,0);
+_TD[2] = vec4(0,0,0,0);
+_TD[3] = vec4(0,0,0,0);
+_TD[4] = vec4(0,0,0,0);
+_TD[5] = vec4(0,0,0,0);
+_TD[6] = vec4(0,0,0,0);
+_TD[7] = vec4(0,0,0,0);
+_TD[8] = vec4(0,0,0,0);
+_TD[9] = vec4(0,0,0,0);
 
-_SO[0] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[1] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[2] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[3] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[4] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[5] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[6] = vec4(0.9, 0.88, 0.01, 0.001);
-_SO[7] = vec4(0.9, 0.88, 0.01, 0.0);
-_SO[8] = vec4(0.9, 0.88, 0.01, -0.001);
-_SO[9] = vec4(0.9, 0.88, 0.01, -0.003);
+_SK[0] = vec4(0,0,0,0);
+_SK[1] = vec4(0,0,0,0);
+_SK[2] = vec4(0,0,0,0);
+_SK[3] = vec4(0,0,0,0);
+_SK[4] = vec4(0,0,0,0);
+_SK[5] = vec4(0,0,0,0);
+_SK[6] = vec4(0,0,0,0);
+_SK[7] = vec4(0,0,0,0);
+_SK[8] = vec4(0,0,0,0);
+_SK[9] = vec4(0,0,0,0);
 
-_TD[0] = vec4(0,1,0,0.18);
-_TD[1] = vec4(0,1,0,0.18);
-_TD[2] = vec4(0,1,0,0.18);
-_TD[3] = vec4(0,1,0,0.18);
-_TD[4] = vec4(0,1,0,0.18);
-_TD[5] = vec4(0,1,0,0.18);
-_TD[6] = vec4(0,1,0,0.18);
-_TD[7] = vec4(0,1,0,0.18);
-_TD[8] = vec4(0,1,0,0.18);
-_TD[9] = vec4(0,1,0,0.18);
+  _NFOD= vec4(near,1.0,0.5,0.0);
 
-_SK[0] = vec4(.0262,0,0,0);
-_SK[1] = vec4(.0262,0,0,0);
-_SK[2] = vec4(.0262,0,0,0);
-_SK[3] = vec4(.0262,0,0,0);
-_SK[4] = vec4(.0262,0,0,0);
-_SK[5] = vec4(.0262,0,0,0);
-_SK[6] = vec4(.0262,0,0,0);
-_SK[7] = vec4(.0262,0,0,0);
-_SK[8] = vec4(.0262,0,0,0);
-_SK[9] = vec4(.0262,0,0,0);
-
+  _SFCO= vec4(10.0,0.0,0.0,0.0);
 
 float fs = floor(texcoord.y * _SFCO.x);
+
+
+vec4 SO = vec4(0,0,0,0);
+vec4 TD = vec4(0,0,0,0);
+vec4 SK = vec4(0,0,0,0);
+
+for (float i = 0.0; i < 10.0; i+=1.0) {
+  SO += _SO[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
+  TD += _TD[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
+  SK += _SK[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
+}
 
 
 /*
@@ -76,17 +87,6 @@ for (int i = 0; i < 10; i++) {
 }
 */
 
-vec4 SO = vec4(0,0,0,0); //x: size x, y: size y, z: offset x, w: offset y
-vec4 TD = vec4(0,0,0,0);//x: sin(), y: cos(), z: distort x, w: distort y
-vec4 SK = vec4(0,0,0,0); //x: tan(x skew), y: tan(y skew), z: 0, w: 0
-
-for (float i = 0.0; i < 10.0; i+=1.0) {
-  SO += _SO[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
-  TD += _TD[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
-  SK += _SK[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
-}
-
-
 
 float g = floor(texcoord.y * _SFCO.x) / _SFCO.x + 1.0 / (_SFCO.x * 2.0);
 g = (1.0 - g) * _SFCO.w + g * (1.0 - _SFCO.w);
@@ -97,7 +97,7 @@ foldedTexCoord.y = fract((texcoord.y +SO.w) *_SFCO.x);
 
 
 
-  				/*** size, offset etc. below. (calibration) ***/
+  				/*** size, offset etc. below. ***/
 
 					//first offset to center, will restore position later
 					vec2 nuv = vec2(foldedTexCoord.x - 0.5, foldedTexCoord.y - 0.5);
@@ -117,16 +117,13 @@ foldedTexCoord.y = fract((texcoord.y +SO.w) *_SFCO.x);
 					TD.w = abs(TD.w) * (py); //this will be "lerped"
 					nuv.x = nuv.x * (1.0 / (TD.w + (1.0 - py))); //perform a center-based scale on the x
 
-
 					//skew x y
 					mat3 mySkew = mat3(
 						1, SK.y, 0,
 						SK.x, 1, 0,
 						0, 0, 1
 						);
-            vec3 nuv3 = vec3(nuv.x,nuv.y,0.0);
-            nuv3 = mySkew*nuv3;
-            nuv=nuv3.xy;
+					//nuv = mySkew*nuv;
 
 					//rotation
 					mat2 myRotator = mat2(
@@ -134,7 +131,7 @@ foldedTexCoord.y = fract((texcoord.y +SO.w) *_SFCO.x);
 						TD.x, TD.y
 						);
 
-					nuv = myRotator * nuv;
+					nuv = myRotator* nuv;
 
 					//size x y
 					nuv.x = nuv.x / SO.x;
@@ -145,12 +142,14 @@ foldedTexCoord.y = fract((texcoord.y +SO.w) *_SFCO.x);
 					nuv.y = nuv.y + SO.w;
 
 					//set IN.uv to a nuv returned to center
-				  foldedTexCoord.x=nuv.x + 0.5;
+					foldedTexCoord.x=nuv.x + 0.5;
           foldedTexCoord.y=nuv.y + 0.5;
 
 					//darken extraneous pixels
 
 					float nuvd = float(foldedTexCoord.x >= 0.0) * float(foldedTexCoord.x <= 1.0) * float(foldedTexCoord.y >= 0.0) * float(foldedTexCoord.y <= 1.0);
+
+					vec4 nuvdc = vec4(nuvd, nuvd, nuvd, 1);
 
 					/*** end size, offset section ***/
 
@@ -160,9 +159,14 @@ float d = texture2D(depthtex1, foldedTexCoord.xy).x;
 float ld = -(sign(_NFOD.x)-1.0) * d + sign(_NFOD.x) * LinearizeDepth(d);
 d= mix(ld, d, _NFOD.w);
 
+//calibration adjustments
+
+_NFOD.z += _SFCO.z * 100.0; //ramp up the overlap if calibration is on
+float so = fs * (1.0 - _SFCO.w) + (_SFCO.x - fs - 1.0) * _SFCO.w; //if the slice order is flipped, flip the fs (current slice), call it "so", and use it in the next line;
+float cb = 1.0 - _SFCO.z * step(foldedTexCoord.x, 0.9) * step(0.1, foldedTexCoord.x) * step(foldedTexCoord.y, 0.2) * step(0.1, foldedTexCoord.y) * step(1.0, so); //calibration black box so font doesn't repeat forever
 
 
-//n calc
+//n calc`
 float val = 1.0 - abs(g - d) * (_SFCO.x - _NFOD.z * _SFCO.x / 2.0);
 float clamped =clamp(val,0.0,1.0);
 float n = pow(clamped, 0.5);
@@ -174,13 +178,12 @@ float f = f1*f2;
 
 
 //vec4 r= c*n*f;
-vec4 r = c * n * f * nuvd;
-//vec4 r = c * n * f * cb * nuvdc;
+vec4 r = c * n * f * cb * nuvdc;
 
-//multiply for brightness
-gl_FragColor = r*3.0;//*2.0;
+gl_FragColor = r*2.0;
 
 //gl_FragColor = texture2D(composite,texcoord.st);
+
 //gl_FragColor=texture2D(gaux1,texcoord.xy);
 
 }

@@ -10,5 +10,5 @@ void main(){
 
 //do want this for flip y
   texcoord.y=1-texcoord.y;
-
+  //texcoord.x=1-texcoord.x;
 }
