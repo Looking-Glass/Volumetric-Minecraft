@@ -18,7 +18,8 @@ and this repo.
 Run minecraft normally once to check that forge is installed, it should say so in the bottom left of the game window, then quit.
 Then you should be able to select a profile named "forge" in the bottom left of the minecraft launcher window, then edit that profile and click "Open Game Dir."
 
-Put the optifine .jar file (in this repo) in the mods folder of the opened game dir, and put the VolumetricMinecraft folder (in this repo) in the shaderpacks folder!
+Put the optifine .jar file (in this repo) in the mods folder of the opened game dir.
+Make a folder named "shaderpacks" and put the VolumetricMinecraft folder (in this repo) in the shaderpacks folder!
 
 Now that shader should be selectable in-game, in the menu it's Video Settings>Shaders>VolumetricMinecraft
 
