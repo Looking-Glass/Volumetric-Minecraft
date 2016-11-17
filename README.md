@@ -1,6 +1,8 @@
 # Volumetric-Minecraft
 It's a minecraft shader!
 
+![Alt Text](https://github.com/oligb/Volumetric-Minecraft/raw/master/img/minecraft.gif)
+
 These should be the steps to get it working:
 
 First install Minecraft, then:
