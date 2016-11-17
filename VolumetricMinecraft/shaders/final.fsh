@@ -77,8 +77,8 @@ for (int i = 0; i < 10; i++) {
 */
 
 vec4 SO = vec4(0,0,0,0); //x: size x, y: size y, z: offset x, w: offset y
-vec4 TD = vec4(0,0,0,0);//x: sin(), y: cos(), z: distort x, w: distort y
-vec4 SK = vec4(0,0,0,0); //x: tan(x skew), y: tan(y skew), z: 0, w: 0
+vec4 TD = vec4(0,0,0,0);
+vec4 SK = vec4(0,0,0,0);
 
 for (float i = 0.0; i < 10.0; i+=1.0) {
   SO += _SO[int(i)] * step(i, fs) * (1.0 - step(i + 1.0, fs));
