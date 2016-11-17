@@ -1,7 +1,7 @@
 # Volumetric-Minecraft
 It's a minecraft shader!
 
-![Alt Text](https://github.com/oligb/Volumetric-Minecraft/master/img/minecraft.gif)
+![Alt Text](https://github.com/Looking-Glass/Volumetric-Minecraft/blob/master/img/minecraft.gif)
 
 These should be the steps to get it working:
 
